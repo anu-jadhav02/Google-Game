@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>GAME</title>
+</head>
+<style>
+    #score{
+        text-align: center;
+    }
+    #game{
+        width: 600px;
+        height: 300px;
+        border: 2px solid black;
+        margin: auto;
+        margin-top: 50px;
+        background-size: cover;
+        background-image: url("https://cdn5.vectorstock.com/i/1000x1000/70/29/black-and-white-forest-game-background-landscape-vector-14067029.jpg");
+    }
+    #dino{
+        height: 75px;
+        width: 75px;
+        position: relative;
+        top: 225px;
+        background-size: cover;
+        background-image:url("https://cdn140.picsart.com/319033380165211.png?type=Webp&to=min&r=640");
+    }
+    #rock{
+        height: 50px;
+        width: 50px;
+        position: relative;
+        top: 175px;
+        left: 550px; 
+        background-size: cover;
+        background-image:url("https://lh3.googleusercontent.com/proxy/3uSZeIePnr-TMeHQiLaYA3Z0LM2kj7g3QneK64QoxtZEKeQeiKlNDD5oYXmOp191dmwXtwAvSr5sV-sV-o79BSIxmRMwxVVG");
+        animation: rock 1.33s infinite;
+
+    }
+    @keyframes rock{
+        0%{
+            left: 550px;
+        }
+        100%{
+            left: -50px;
+        }
+    }
+    .jump-animation{
+        animation: jump 0.5s;
+    }
+    @keyframes jump{
+        0%{
+            top:225px;
+        }
+        50%{
+            top: 75px;
+        }
+        75%{
+            top: 75px;
+        }
+        100%{
+            top: 225px;
+        }
+    }
+</style>
+<body>
+    <div id="game">
+        <div id="dino"></div>
+        <div id="rock"></div>
+    </div>
+    <h1 id="score">0</h1>
+</body>
+<script type="text/javascript">
+    const dino = document.querySelector('#dino');
+    const rock = document.querySelector('#rock');
+    const score = document.querySelector('#score');
+
+    function jump(){
+        dino.classList.add('jump-animation');
+        setTimeout(() =>{
+            dino.classList.remove('jump-animation');
+        },500);
+    }
+
+    document.addEventListener('keypress', () => {
+        if(!dino.classList.contains('jump-animation')){
+           jump();
+        }
+    });
+
+    setInterval(() => {
+        score.innerText++;
+        const dinoTop = parseInt(window.getComputedStyle(dino)
+        .getPropertyValue('top'));
+        const rockLeft = parseInt(window.getComputedStyle(rock)
+        .getPropertyValue('left'));
+
+        if (rockLeft < 0){
+            rock.style.display = 'none';
+            }else{ 
+            rock.style.display = '';
+        }
+
+        if (rockLeft < 50 && rockLeft > 0 && dinoTop > 150){
+            alert("You got a score of " + score.innerText + "\n\nPlay again?");
+            location.reload();
+        }
+    }, 50);
+</script>
+</html>
